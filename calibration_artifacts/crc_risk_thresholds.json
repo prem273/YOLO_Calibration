@@ -1,0 +1,450 @@
+{
+  "method": "CRC-style finite-sample risk control via monotone bounded image-level loss and Hoeffding upper bound",
+  "risk_definition": "Per-image false-positive occurrence: 1 if any retained detection is incorrect (same-class IoU < 0.50 or unmatched), else 0.",
+  "assumptions": [
+    "Calibration and future images are exchangeable",
+    "Same-class greedy matching at IoU >= 0.50 defines prediction correctness",
+    "The threshold grid and risk target grid were fixed before evaluation"
+  ],
+  "iou_threshold": 0.5,
+  "confidence_floor": 0.001,
+  "seed": 42,
+  "selected_images": 500,
+  "split_images": {
+    "fit": 200,
+    "validation": 100,
+    "test": 200
+  },
+  "risk_targets": [
+    0.15,
+    0.2,
+    0.25,
+    0.3,
+    0.4,
+    0.5
+  ],
+  "threshold_grid": [
+    0.05,
+    0.1,
+    0.15,
+    0.2,
+    0.25,
+    0.3,
+    0.35,
+    0.4,
+    0.45,
+    0.5,
+    0.55,
+    0.6,
+    0.65,
+    0.7,
+    0.75,
+    0.8,
+    0.85,
+    0.9,
+    0.95,
+    1.01
+  ],
+  "delta": 0.05,
+  "risk_bound_radius": 0.109402,
+  "simultaneous_targets_correction": 6,
+  "pilot": true,
+  "models": {
+    "yolov8n": {
+      "weights": "yolov8n.pt",
+      "elapsed_seconds": 22.95,
+      "thresholds": {
+        "0.15": {
+          "certified": true,
+          "threshold": 0.8,
+          "risk_target": 0.15,
+          "empirical_risk": 0.025,
+          "risk_upper_bound": 0.13440168809006153,
+          "bound_radius": 0.10940168809006154,
+          "calibration_images": 200,
+          "delta": 0.05,
+          "retention_fraction": 0.014218,
+          "mean_retained_detections_per_image": 1.33,
+          "images_with_at_least_one_false_positive": 5,
+          "method": "CRC-style finite-sample risk control via monotone bounded image-level loss and Hoeffding upper bound",
+          "validation_metrics": {
+            "images": 100,
+            "empirical_per_image_false_positive_risk": 0.01,
+            "images_with_at_least_one_false_positive": 1,
+            "retained_detections": 105,
+            "all_candidate_detections": 7851,
+            "retention_fraction": 0.013374,
+            "mean_retained_detections_per_image": 1.05
+          },
+          "test_metrics": {
+            "images": 200,
+            "empirical_per_image_false_positive_risk": 0.025,
+            "images_with_at_least_one_false_positive": 5,
+            "retained_detections": 260,
+            "all_candidate_detections": 18861,
+            "retention_fraction": 0.013785,
+            "mean_retained_detections_per_image": 1.3
+          }
+        },
+        "0.20": {
+          "certified": true,
+          "threshold": 0.7,
+          "risk_target": 0.2,
+          "empirical_risk": 0.07,
+          "risk_upper_bound": 0.17940168809006155,
+          "bound_radius": 0.10940168809006154,
+          "calibration_images": 200,
+          "delta": 0.05,
+          "retention_fraction": 0.01967,
+          "mean_retained_detections_per_image": 1.84,
+          "images_with_at_least_one_false_positive": 14,
+          "method": "CRC-style finite-sample risk control via monotone bounded image-level loss and Hoeffding upper bound",
+          "validation_metrics": {
+            "images": 100,
+            "empirical_per_image_false_positive_risk": 0.02,
+            "images_with_at_least_one_false_positive": 2,
+            "retained_detections": 161,
+            "all_candidate_detections": 7851,
+            "retention_fraction": 0.020507,
+            "mean_retained_detections_per_image": 1.61
+          },
+          "test_metrics": {
+            "images": 200,
+            "empirical_per_image_false_positive_risk": 0.075,
+            "images_with_at_least_one_false_positive": 15,
+            "retained_detections": 377,
+            "all_candidate_detections": 18861,
+            "retention_fraction": 0.019988,
+            "mean_retained_detections_per_image": 1.885
+          }
+        },
+        "0.25": {
+          "certified": true,
+          "threshold": 0.65,
+          "risk_target": 0.25,
+          "empirical_risk": 0.11,
+          "risk_upper_bound": 0.21940168809006155,
+          "bound_radius": 0.10940168809006154,
+          "calibration_images": 200,
+          "delta": 0.05,
+          "retention_fraction": 0.022289,
+          "mean_retained_detections_per_image": 2.085,
+          "images_with_at_least_one_false_positive": 22,
+          "method": "CRC-style finite-sample risk control via monotone bounded image-level loss and Hoeffding upper bound",
+          "validation_metrics": {
+            "images": 100,
+            "empirical_per_image_false_positive_risk": 0.09,
+            "images_with_at_least_one_false_positive": 9,
+            "retained_detections": 189,
+            "all_candidate_detections": 7851,
+            "retention_fraction": 0.024073,
+            "mean_retained_detections_per_image": 1.89
+          },
+          "test_metrics": {
+            "images": 200,
+            "empirical_per_image_false_positive_risk": 0.095,
+            "images_with_at_least_one_false_positive": 19,
+            "retained_detections": 423,
+            "all_candidate_detections": 18861,
+            "retention_fraction": 0.022427,
+            "mean_retained_detections_per_image": 2.115
+          }
+        },
+        "0.30": {
+          "certified": true,
+          "threshold": 0.6,
+          "risk_target": 0.3,
+          "empirical_risk": 0.175,
+          "risk_upper_bound": 0.2844016880900615,
+          "bound_radius": 0.10940168809006154,
+          "calibration_images": 200,
+          "delta": 0.05,
+          "retention_fraction": 0.025175,
+          "mean_retained_detections_per_image": 2.355,
+          "images_with_at_least_one_false_positive": 35,
+          "method": "CRC-style finite-sample risk control via monotone bounded image-level loss and Hoeffding upper bound",
+          "validation_metrics": {
+            "images": 100,
+            "empirical_per_image_false_positive_risk": 0.11,
+            "images_with_at_least_one_false_positive": 11,
+            "retained_detections": 216,
+            "all_candidate_detections": 7851,
+            "retention_fraction": 0.027512,
+            "mean_retained_detections_per_image": 2.16
+          },
+          "test_metrics": {
+            "images": 200,
+            "empirical_per_image_false_positive_risk": 0.135,
+            "images_with_at_least_one_false_positive": 27,
+            "retained_detections": 465,
+            "all_candidate_detections": 18861,
+            "retention_fraction": 0.024654,
+            "mean_retained_detections_per_image": 2.325
+          }
+        },
+        "0.40": {
+          "certified": true,
+          "threshold": 0.5,
+          "risk_target": 0.4,
+          "empirical_risk": 0.265,
+          "risk_upper_bound": 0.3744016880900616,
+          "bound_radius": 0.10940168809006154,
+          "calibration_images": 200,
+          "delta": 0.05,
+          "retention_fraction": 0.03052,
+          "mean_retained_detections_per_image": 2.855,
+          "images_with_at_least_one_false_positive": 53,
+          "method": "CRC-style finite-sample risk control via monotone bounded image-level loss and Hoeffding upper bound",
+          "validation_metrics": {
+            "images": 100,
+            "empirical_per_image_false_positive_risk": 0.24,
+            "images_with_at_least_one_false_positive": 24,
+            "retained_detections": 264,
+            "all_candidate_detections": 7851,
+            "retention_fraction": 0.033626,
+            "mean_retained_detections_per_image": 2.64
+          },
+          "test_metrics": {
+            "images": 200,
+            "empirical_per_image_false_positive_risk": 0.25,
+            "images_with_at_least_one_false_positive": 50,
+            "retained_detections": 585,
+            "all_candidate_detections": 18861,
+            "retention_fraction": 0.031016,
+            "mean_retained_detections_per_image": 2.925
+          }
+        },
+        "0.50": {
+          "certified": true,
+          "threshold": 0.45,
+          "risk_target": 0.5,
+          "empirical_risk": 0.335,
+          "risk_upper_bound": 0.44440168809006153,
+          "bound_radius": 0.10940168809006154,
+          "calibration_images": 200,
+          "delta": 0.05,
+          "retention_fraction": 0.033513,
+          "mean_retained_detections_per_image": 3.135,
+          "images_with_at_least_one_false_positive": 67,
+          "method": "CRC-style finite-sample risk control via monotone bounded image-level loss and Hoeffding upper bound",
+          "validation_metrics": {
+            "images": 100,
+            "empirical_per_image_false_positive_risk": 0.3,
+            "images_with_at_least_one_false_positive": 30,
+            "retained_detections": 296,
+            "all_candidate_detections": 7851,
+            "retention_fraction": 0.037702,
+            "mean_retained_detections_per_image": 2.96
+          },
+          "test_metrics": {
+            "images": 200,
+            "empirical_per_image_false_positive_risk": 0.325,
+            "images_with_at_least_one_false_positive": 65,
+            "retained_detections": 643,
+            "all_candidate_detections": 18861,
+            "retention_fraction": 0.034092,
+            "mean_retained_detections_per_image": 3.215
+          }
+        }
+      }
+    },
+    "yolo11n": {
+      "weights": "yolo11n.pt",
+      "elapsed_seconds": 24.36,
+      "thresholds": {
+        "0.15": {
+          "certified": true,
+          "threshold": 0.8,
+          "risk_target": 0.15,
+          "empirical_risk": 0.04,
+          "risk_upper_bound": 0.14940168809006155,
+          "bound_radius": 0.10940168809006154,
+          "calibration_images": 200,
+          "delta": 0.05,
+          "retention_fraction": 0.015415,
+          "mean_retained_detections_per_image": 1.36,
+          "images_with_at_least_one_false_positive": 8,
+          "method": "CRC-style finite-sample risk control via monotone bounded image-level loss and Hoeffding upper bound",
+          "validation_metrics": {
+            "images": 100,
+            "empirical_per_image_false_positive_risk": 0.0,
+            "images_with_at_least_one_false_positive": 0,
+            "retained_detections": 120,
+            "all_candidate_detections": 7122,
+            "retention_fraction": 0.016849,
+            "mean_retained_detections_per_image": 1.2
+          },
+          "test_metrics": {
+            "images": 200,
+            "empirical_per_image_false_positive_risk": 0.06,
+            "images_with_at_least_one_false_positive": 12,
+            "retained_detections": 280,
+            "all_candidate_detections": 17617,
+            "retention_fraction": 0.015894,
+            "mean_retained_detections_per_image": 1.4
+          }
+        },
+        "0.20": {
+          "certified": true,
+          "threshold": 0.75,
+          "risk_target": 0.2,
+          "empirical_risk": 0.065,
+          "risk_upper_bound": 0.17440168809006154,
+          "bound_radius": 0.10940168809006154,
+          "calibration_images": 200,
+          "delta": 0.05,
+          "retention_fraction": 0.018872,
+          "mean_retained_detections_per_image": 1.665,
+          "images_with_at_least_one_false_positive": 13,
+          "method": "CRC-style finite-sample risk control via monotone bounded image-level loss and Hoeffding upper bound",
+          "validation_metrics": {
+            "images": 100,
+            "empirical_per_image_false_positive_risk": 0.01,
+            "images_with_at_least_one_false_positive": 1,
+            "retained_detections": 150,
+            "all_candidate_detections": 7122,
+            "retention_fraction": 0.021061,
+            "mean_retained_detections_per_image": 1.5
+          },
+          "test_metrics": {
+            "images": 200,
+            "empirical_per_image_false_positive_risk": 0.075,
+            "images_with_at_least_one_false_positive": 15,
+            "retained_detections": 336,
+            "all_candidate_detections": 17617,
+            "retention_fraction": 0.019072,
+            "mean_retained_detections_per_image": 1.68
+          }
+        },
+        "0.25": {
+          "certified": true,
+          "threshold": 0.7,
+          "risk_target": 0.25,
+          "empirical_risk": 0.105,
+          "risk_upper_bound": 0.21440168809006155,
+          "bound_radius": 0.10940168809006154,
+          "calibration_images": 200,
+          "delta": 0.05,
+          "retention_fraction": 0.021989,
+          "mean_retained_detections_per_image": 1.94,
+          "images_with_at_least_one_false_positive": 21,
+          "method": "CRC-style finite-sample risk control via monotone bounded image-level loss and Hoeffding upper bound",
+          "validation_metrics": {
+            "images": 100,
+            "empirical_per_image_false_positive_risk": 0.02,
+            "images_with_at_least_one_false_positive": 2,
+            "retained_detections": 171,
+            "all_candidate_detections": 7122,
+            "retention_fraction": 0.02401,
+            "mean_retained_detections_per_image": 1.71
+          },
+          "test_metrics": {
+            "images": 200,
+            "empirical_per_image_false_positive_risk": 0.09,
+            "images_with_at_least_one_false_positive": 18,
+            "retained_detections": 382,
+            "all_candidate_detections": 17617,
+            "retention_fraction": 0.021684,
+            "mean_retained_detections_per_image": 1.91
+          }
+        },
+        "0.30": {
+          "certified": true,
+          "threshold": 0.65,
+          "risk_target": 0.3,
+          "empirical_risk": 0.145,
+          "risk_upper_bound": 0.25440168809006153,
+          "bound_radius": 0.10940168809006154,
+          "calibration_images": 200,
+          "delta": 0.05,
+          "retention_fraction": 0.02522,
+          "mean_retained_detections_per_image": 2.225,
+          "images_with_at_least_one_false_positive": 29,
+          "method": "CRC-style finite-sample risk control via monotone bounded image-level loss and Hoeffding upper bound",
+          "validation_metrics": {
+            "images": 100,
+            "empirical_per_image_false_positive_risk": 0.06,
+            "images_with_at_least_one_false_positive": 6,
+            "retained_detections": 196,
+            "all_candidate_detections": 7122,
+            "retention_fraction": 0.02752,
+            "mean_retained_detections_per_image": 1.96
+          },
+          "test_metrics": {
+            "images": 200,
+            "empirical_per_image_false_positive_risk": 0.115,
+            "images_with_at_least_one_false_positive": 23,
+            "retained_detections": 437,
+            "all_candidate_detections": 17617,
+            "retention_fraction": 0.024806,
+            "mean_retained_detections_per_image": 2.185
+          }
+        },
+        "0.40": {
+          "certified": true,
+          "threshold": 0.5,
+          "risk_target": 0.4,
+          "empirical_risk": 0.275,
+          "risk_upper_bound": 0.3844016880900616,
+          "bound_radius": 0.10940168809006154,
+          "calibration_images": 200,
+          "delta": 0.05,
+          "retention_fraction": 0.033551,
+          "mean_retained_detections_per_image": 2.96,
+          "images_with_at_least_one_false_positive": 55,
+          "method": "CRC-style finite-sample risk control via monotone bounded image-level loss and Hoeffding upper bound",
+          "validation_metrics": {
+            "images": 100,
+            "empirical_per_image_false_positive_risk": 0.23,
+            "images_with_at_least_one_false_positive": 23,
+            "retained_detections": 277,
+            "all_candidate_detections": 7122,
+            "retention_fraction": 0.038894,
+            "mean_retained_detections_per_image": 2.77
+          },
+          "test_metrics": {
+            "images": 200,
+            "empirical_per_image_false_positive_risk": 0.255,
+            "images_with_at_least_one_false_positive": 51,
+            "retained_detections": 591,
+            "all_candidate_detections": 17617,
+            "retention_fraction": 0.033547,
+            "mean_retained_detections_per_image": 2.955
+          }
+        },
+        "0.50": {
+          "certified": true,
+          "threshold": 0.4,
+          "risk_target": 0.5,
+          "empirical_risk": 0.38,
+          "risk_upper_bound": 0.48940168809006157,
+          "bound_radius": 0.10940168809006154,
+          "calibration_images": 200,
+          "delta": 0.05,
+          "retention_fraction": 0.040181,
+          "mean_retained_detections_per_image": 3.545,
+          "images_with_at_least_one_false_positive": 76,
+          "method": "CRC-style finite-sample risk control via monotone bounded image-level loss and Hoeffding upper bound",
+          "validation_metrics": {
+            "images": 100,
+            "empirical_per_image_false_positive_risk": 0.33,
+            "images_with_at_least_one_false_positive": 33,
+            "retained_detections": 327,
+            "all_candidate_detections": 7122,
+            "retention_fraction": 0.045914,
+            "mean_retained_detections_per_image": 3.27
+          },
+          "test_metrics": {
+            "images": 200,
+            "empirical_per_image_false_positive_risk": 0.355,
+            "images_with_at_least_one_false_positive": 71,
+            "retained_detections": 689,
+            "all_candidate_detections": 17617,
+            "retention_fraction": 0.03911,
+            "mean_retained_detections_per_image": 3.445
+          }
+        }
+      }
+    }
+  }
+}

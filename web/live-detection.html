@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Compare raw, uncalibrated YOLOv8n and YOLO11n predictions on an uploaded image.">
+  <meta name="description" content="Compare raw and post-hoc calibrated YOLOv8n and YOLO11n predictions on an uploaded image.">
   <title>Live YOLO Detector | Calibration Research</title>
   <link rel="stylesheet" href="/web/live-detection.css">
 </head>
@@ -15,10 +15,10 @@
 
   <main class="page-shell">
     <section class="hero">
-      <div class="eyebrow"><span class="status-dot"></span> REAL INFERENCE · BASELINE</div>
-      <h1>Raw confidence <span>comparison</span></h1>
-      <p>Run YOLOv8n and YOLO11n on the same image. Compare their bounding boxes, class labels, raw detector confidence, and measured prediction time.</p>
-      <div class="method-pill"><span class="pill-dot"></span> Calibration method: <strong>None</strong></div>
+      <div class="eyebrow"><span class="status-dot"></span> REAL INFERENCE · CALIBRATION COMPARISON</div>
+      <h1>Confidence <span>calibration</span></h1>
+      <p>Run YOLOv8n and YOLO11n on the same image. Compare calibrated scores, a risk-controlled threshold, or experimental stochastic-dropout uncertainty statistics.</p>
+      <div class="method-pill"><span class="pill-dot"></span> Selected method: <strong id="method-pill-label">None (Raw Confidence)</strong></div>
     </section>
 
     <section class="upload-panel panel" aria-labelledby="upload-title">
@@ -40,8 +40,48 @@
           <div class="preview-caption" id="preview-caption" hidden><span id="filename-label"></span><span id="dimensions-label"></span></div>
         </div>
       </div>
+      <div class="method-row analysis-mode-row">
+        <label class="method-control" for="analysis-mode">
+          <span>Analysis mode</span>
+          <select id="analysis-mode" name="analysis-mode">
+            <option value="standard">Standard detection / score calibration</option>
+            <option value="crc" disabled>Conformal Risk Control (fit required)</option>
+            <option value="mc_dropout">Monte Carlo Dropout (experimental)</option>
+          </select>
+          <small id="analysis-help">Choose standard confidence calibration, a fitted risk-control threshold, or experimental uncertainty sampling.</small>
+        </label>
+      </div>
+      <div class="method-row" id="risk-target-wrap" hidden>
+        <label class="method-control" for="risk-target">
+          <span>Target per-image false-positive risk</span>
+          <select id="risk-target" name="risk-target">
+            <option value="0.15">15%</option><option value="0.20">20%</option><option value="0.25" selected>25%</option>
+            <option value="0.30">30%</option><option value="0.40">40%</option><option value="0.50">50%</option>
+          </select>
+          <small>CRC chooses a threshold using labeled calibration images. Smaller targets may suppress more detections or be infeasible.</small>
+        </label>
+      </div>
+      <div class="method-row" id="mc-passes-wrap" hidden>
+        <label class="method-control" for="mc-passes">
+          <span>Stochastic passes</span>
+          <select id="mc-passes" name="mc-passes"><option value="4">4 passes</option><option value="6" selected>6 passes</option><option value="8">8 passes</option></select>
+          <small>More passes cost more inference time. This is an exploratory post-hoc dropout probe; the pretrained detector was not trained with dropout.</small>
+        </label>
+      </div>
+      <div class="method-row">
+        <label class="method-control" for="calibration-method">
+          <span>Calibration method</span>
+          <select id="calibration-method" name="calibration-method">
+            <option value="none">None (Raw Confidence)</option>
+            <option value="platt" disabled>Platt Scaling (fit required)</option>
+            <option value="isotonic" disabled>Isotonic Regression (fit required)</option>
+            <option value="loc_isotonic" disabled>Localization-Aware Isotonic (fit required)</option>
+          </select>
+          <small id="method-help">Raw scores are shown until you fit calibration artifacts from labeled COCO data.</small>
+        </label>
+      </div>
       <div class="run-row">
-        <label class="threshold-control" for="conf-threshold"><span>Detection confidence threshold</span><strong id="threshold-value">0.25</strong><input id="conf-threshold" type="range" min="0.05" max="0.90" step="0.05" value="0.25"><small>Lower thresholds show more predictions. This is a detection filter, not calibration.</small></label>
+        <label class="threshold-control" for="conf-threshold"><span id="threshold-label">Detection confidence threshold</span><strong id="threshold-value">0.25</strong><input id="conf-threshold" type="range" min="0.05" max="0.90" step="0.05" value="0.25"><small id="threshold-help">Lower thresholds show more predictions. This is a detection filter, not calibration.</small></label>
         <button id="run-button" class="primary-button" disabled><span>Run both models</span><span aria-hidden="true">→</span></button>
       </div>
       <p class="notice"><strong>First run:</strong> if the checkpoints are not present, Ultralytics downloads the official pretrained weights. The first prediction can take longer while models initialize.</p>
@@ -51,14 +91,15 @@
     <section id="results-section" class="results-section" hidden aria-labelledby="results-title">
       <div class="section-heading results-heading">
         <div><p class="section-kicker">02 / OUTPUT</p><h2 id="results-title">Model comparison</h2></div>
-        <span class="baseline-badge">Raw / uncalibrated</span>
+        <span class="baseline-badge" id="results-method-badge">Raw / uncalibrated</span>
       </div>
-      <p class="results-intro">Scores below are the detectors’ original confidence outputs. A score of 0.90 is not a guarantee that a prediction is correct with 90% probability.</p>
+      <p class="results-intro" id="results-intro">Scores below are the detectors’ original confidence outputs. A score of 0.90 is not a guarantee that a prediction is correct with 90% probability.</p>
+      <p class="analysis-summary" id="analysis-summary" hidden></p>
       <div id="model-results" class="model-grid"></div>
       <div class="comparison-footnote"><span>ⓘ</span><p><strong>Timing note:</strong> inference time measures each model's prediction call and excludes checkpoint download/loading, image upload, and result rendering. The first run may include one-time initialization overhead.</p></div>
     </section>
 
-    <footer><span>YOLOv8n + YOLO11n</span><span>Raw confidence baseline · No calibration applied</span></footer>
+    <footer><span>YOLOv8n + YOLO11n</span><span id="footer-method">Raw confidence baseline · No calibration applied</span></footer>
   </main>
   <script src="/web/live-detection.js" defer></script>
 </body>
