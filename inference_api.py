@@ -193,8 +193,7 @@ class _MCDropoutPreHook:
 
 
 def _find_detect_head(model: YOLO) -> Any:
-    # Ultralytics may expose the active inference model through the
-    # predictor, while the YOLO wrapper retains the underlying model.
+    # Check both the active predictor and the underlying YOLO model.
     predictor = getattr(model, "predictor", None)
     predictor_model = getattr(predictor, "model", None)
     core_model = getattr(model, "model", None)
@@ -204,16 +203,18 @@ def _find_detect_head(model: YOLO) -> Any:
         if base is None:
             continue
 
-        for candidate in (
+        candidates = (
             base,
             getattr(base, "model", None),
             getattr(base, "module", None),
-        ):
+        )
+
+        for candidate in candidates:
             if candidate is None:
                 continue
             if not callable(getattr(candidate, "modules", None)):
                 continue
-            if not any(candidate is existing for existing in roots):
+            if not any(candidate is item for item in roots):
                 roots.append(candidate)
 
     for root in roots:
