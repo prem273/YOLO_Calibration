@@ -1,0 +1,183 @@
+{
+  "protocol": "COCO val2017 detection calibration; greedy class-aware IoU matching",
+  "iou_threshold": 0.5,
+  "confidence_floor": 0.001,
+  "seed": 42,
+  "selected_images": 500,
+  "split_images": {
+    "fit": 200,
+    "validation": 100,
+    "test": 200
+  },
+  "pilot": true,
+  "models": {
+    "yolov8n": {
+      "metadata": {
+        "model": "yolov8n",
+        "weights": "yolov8n.pt",
+        "fit_images": 200,
+        "fit_detections": 18709,
+        "iou_threshold": 0.5,
+        "seed": 42,
+        "pilot": true,
+        "label_definition": "1 if same-class prediction greedily matches an unmatched COCO ground-truth box at IoU >= 0.50, otherwise 0"
+      },
+      "elapsed_seconds": 23.38,
+      "splits": {
+        "fit": {
+          "raw": {
+            "detections": 18709,
+            "ece_15_bins": 0.010699,
+            "brier": 0.027927,
+            "mean_score": 0.046546,
+            "empirical_accuracy": 0.057245
+          },
+          "platt": {
+            "detections": 18709,
+            "ece_15_bins": 0.007955,
+            "brier": 0.028424,
+            "mean_score": 0.05732,
+            "empirical_accuracy": 0.057245
+          },
+          "isotonic": {
+            "detections": 18709,
+            "ece_15_bins": 0.0,
+            "brier": 0.026894,
+            "mean_score": 0.057245,
+            "empirical_accuracy": 0.057245
+          }
+        },
+        "validation": {
+          "raw": {
+            "detections": 7851,
+            "ece_15_bins": 0.011167,
+            "brier": 0.028307,
+            "mean_score": 0.048945,
+            "empirical_accuracy": 0.059355
+          },
+          "platt": {
+            "detections": 7851,
+            "ece_15_bins": 0.010648,
+            "brier": 0.028685,
+            "mean_score": 0.060358,
+            "empirical_accuracy": 0.059355
+          },
+          "isotonic": {
+            "detections": 7851,
+            "ece_15_bins": 0.00588,
+            "brier": 0.027721,
+            "mean_score": 0.060021,
+            "empirical_accuracy": 0.059355
+          }
+        },
+        "test": {
+          "raw": {
+            "detections": 18861,
+            "ece_15_bins": 0.011749,
+            "brier": 0.026724,
+            "mean_score": 0.044897,
+            "empirical_accuracy": 0.056625
+          },
+          "platt": {
+            "detections": 18861,
+            "ece_15_bins": 0.010809,
+            "brier": 0.027188,
+            "mean_score": 0.056934,
+            "empirical_accuracy": 0.056625
+          },
+          "isotonic": {
+            "detections": 18861,
+            "ece_15_bins": 0.003155,
+            "brier": 0.026043,
+            "mean_score": 0.055033,
+            "empirical_accuracy": 0.056625
+          }
+        }
+      }
+    },
+    "yolo11n": {
+      "metadata": {
+        "model": "yolo11n",
+        "weights": "yolo11n.pt",
+        "fit_images": 200,
+        "fit_detections": 17645,
+        "iou_threshold": 0.5,
+        "seed": 42,
+        "pilot": true,
+        "label_definition": "1 if same-class prediction greedily matches an unmatched COCO ground-truth box at IoU >= 0.50, otherwise 0"
+      },
+      "elapsed_seconds": 26.37,
+      "splits": {
+        "fit": {
+          "raw": {
+            "detections": 17645,
+            "ece_15_bins": 0.011636,
+            "brier": 0.02932,
+            "mean_score": 0.049515,
+            "empirical_accuracy": 0.06115
+          },
+          "platt": {
+            "detections": 17645,
+            "ece_15_bins": 0.010128,
+            "brier": 0.02987,
+            "mean_score": 0.061228,
+            "empirical_accuracy": 0.06115
+          },
+          "isotonic": {
+            "detections": 17645,
+            "ece_15_bins": 0.0,
+            "brier": 0.028198,
+            "mean_score": 0.06115,
+            "empirical_accuracy": 0.06115
+          }
+        },
+        "validation": {
+          "raw": {
+            "detections": 7122,
+            "ece_15_bins": 0.014818,
+            "brier": 0.030467,
+            "mean_score": 0.052178,
+            "empirical_accuracy": 0.066976
+          },
+          "platt": {
+            "detections": 7122,
+            "ece_15_bins": 0.011893,
+            "brier": 0.031006,
+            "mean_score": 0.065778,
+            "empirical_accuracy": 0.066976
+          },
+          "isotonic": {
+            "detections": 7122,
+            "ece_15_bins": 0.007085,
+            "brier": 0.0295,
+            "mean_score": 0.063959,
+            "empirical_accuracy": 0.066976
+          }
+        },
+        "test": {
+          "raw": {
+            "detections": 17617,
+            "ece_15_bins": 0.013514,
+            "brier": 0.028648,
+            "mean_score": 0.047364,
+            "empirical_accuracy": 0.06085
+          },
+          "platt": {
+            "detections": 17617,
+            "ece_15_bins": 0.009928,
+            "brier": 0.028926,
+            "mean_score": 0.059991,
+            "empirical_accuracy": 0.06085
+          },
+          "isotonic": {
+            "detections": 17617,
+            "ece_15_bins": 0.003284,
+            "brier": 0.02777,
+            "mean_score": 0.058351,
+            "empirical_accuracy": 0.06085
+          }
+        }
+      }
+    }
+  }
+}

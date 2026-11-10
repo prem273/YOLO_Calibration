@@ -1,0 +1,142 @@
+{
+  "protocol": "Localization-aware calibration on COCO val2017 with greedy same-class IoU matching",
+  "target_definition": "correctness * IoU: IoU for matched same-class prediction with IoU >= 0.50; otherwise 0",
+  "iou_match_threshold": 0.5,
+  "confidence_floor": 0.001,
+  "seed": 42,
+  "selected_images": 500,
+  "split_images": {
+    "fit": 200,
+    "validation": 100,
+    "test": 200
+  },
+  "pilot": true,
+  "models": {
+    "yolov8n": {
+      "metadata": {
+        "model": "yolov8n",
+        "weights": "yolov8n.pt",
+        "fit_images": 200,
+        "fit_detections": 18709,
+        "iou_match_threshold": 0.5,
+        "seed": 42,
+        "pilot": true,
+        "target_definition": "correctness * IoU: IoU if greedy same-class match has IoU >= 0.50, else 0"
+      },
+      "elapsed_seconds": 22.18,
+      "splits": {
+        "fit": {
+          "raw_vs_localization_target": {
+            "detections": 18709,
+            "localization_ece_15_bins": 0.003357,
+            "localization_brier": 0.015876,
+            "mean_predicted_score": 0.046546,
+            "mean_localization_target": 0.046027
+          },
+          "loc_isotonic_vs_localization_target": {
+            "detections": 18709,
+            "localization_ece_15_bins": 0.0,
+            "localization_brier": 0.01557,
+            "mean_predicted_score": 0.046027,
+            "mean_localization_target": 0.046027
+          }
+        },
+        "validation": {
+          "raw_vs_localization_target": {
+            "detections": 7851,
+            "localization_ece_15_bins": 0.00539,
+            "localization_brier": 0.016089,
+            "mean_predicted_score": 0.048945,
+            "mean_localization_target": 0.047709
+          },
+          "loc_isotonic_vs_localization_target": {
+            "detections": 7851,
+            "localization_ece_15_bins": 0.002828,
+            "localization_brier": 0.016041,
+            "mean_predicted_score": 0.048316,
+            "mean_localization_target": 0.047709
+          }
+        },
+        "test": {
+          "raw_vs_localization_target": {
+            "detections": 18861,
+            "localization_ece_15_bins": 0.001741,
+            "localization_brier": 0.015286,
+            "mean_predicted_score": 0.044897,
+            "mean_localization_target": 0.045714
+          },
+          "loc_isotonic_vs_localization_target": {
+            "detections": 18861,
+            "localization_ece_15_bins": 0.002296,
+            "localization_brier": 0.01541,
+            "mean_predicted_score": 0.044412,
+            "mean_localization_target": 0.045714
+          }
+        }
+      }
+    },
+    "yolo11n": {
+      "metadata": {
+        "model": "yolo11n",
+        "weights": "yolo11n.pt",
+        "fit_images": 200,
+        "fit_detections": 17645,
+        "iou_match_threshold": 0.5,
+        "seed": 42,
+        "pilot": true,
+        "target_definition": "correctness * IoU: IoU if greedy same-class match has IoU >= 0.50, else 0"
+      },
+      "elapsed_seconds": 23.7,
+      "splits": {
+        "fit": {
+          "raw_vs_localization_target": {
+            "detections": 17645,
+            "localization_ece_15_bins": 0.002639,
+            "localization_brier": 0.016518,
+            "mean_predicted_score": 0.049515,
+            "mean_localization_target": 0.04904
+          },
+          "loc_isotonic_vs_localization_target": {
+            "detections": 17645,
+            "localization_ece_15_bins": 0.0,
+            "localization_brier": 0.016216,
+            "mean_predicted_score": 0.04904,
+            "mean_localization_target": 0.04904
+          }
+        },
+        "validation": {
+          "raw_vs_localization_target": {
+            "detections": 7122,
+            "localization_ece_15_bins": 0.003882,
+            "localization_brier": 0.016911,
+            "mean_predicted_score": 0.052178,
+            "mean_localization_target": 0.053786
+          },
+          "loc_isotonic_vs_localization_target": {
+            "detections": 7122,
+            "localization_ece_15_bins": 0.004416,
+            "localization_brier": 0.016966,
+            "mean_predicted_score": 0.051614,
+            "mean_localization_target": 0.053786
+          }
+        },
+        "test": {
+          "raw_vs_localization_target": {
+            "detections": 17617,
+            "localization_ece_15_bins": 0.002458,
+            "localization_brier": 0.016288,
+            "mean_predicted_score": 0.047364,
+            "mean_localization_target": 0.049144
+          },
+          "loc_isotonic_vs_localization_target": {
+            "detections": 17617,
+            "localization_ece_15_bins": 0.002634,
+            "localization_brier": 0.016384,
+            "mean_predicted_score": 0.046932,
+            "mean_localization_target": 0.049144
+          }
+        }
+      }
+    }
+  }
+}
