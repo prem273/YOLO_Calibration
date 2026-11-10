@@ -193,14 +193,47 @@ class _MCDropoutPreHook:
 
 
 def _find_detect_head(model: YOLO) -> Any:
-    predictor_model = getattr(getattr(model, "predictor", None), "model", None)
-    if predictor_model is None:
-        raise HTTPException(status_code=409, detail="YOLO inference predictor is not initialized; retry the request.")
-    heads = [module for module in predictor_model.modules() if module.__class__.__name__ == "Detect"]
-    if not heads:
-        raise HTTPException(status_code=409, detail="This checkpoint has no compatible Detect head for the experimental dropout probe.")
-    return heads[-1]
+    # Ultralytics may expose the active inference model through the
+    # predictor, while the YOLO wrapper retains the underlying model.
+    predictor = getattr(model, "predictor", None)
+    predictor_model = getattr(predictor, "model", None)
+    core_model = getattr(model, "model", None)
 
+    roots = []
+    for base in (predictor_model, core_model):
+        if base is None:
+            continue
+
+        for candidate in (
+            base,
+            getattr(base, "model", None),
+            getattr(base, "module", None),
+        ):
+            if candidate is None:
+                continue
+            if not callable(getattr(candidate, "modules", None)):
+                continue
+            if not any(candidate is existing for existing in roots):
+                roots.append(candidate)
+
+    for root in roots:
+        for module in root.modules():
+            if (
+                module.__class__.__name__ == "Detect"
+                and hasattr(module, "cv2")
+                and hasattr(module, "cv3")
+            ):
+                return module
+
+    checked = [type(root).__name__ for root in roots]
+    raise HTTPException(
+        status_code=409,
+        detail=(
+            "Could not locate a compatible Ultralytics Detect head. "
+            f"Model roots inspected: {checked}. "
+            "Monte Carlo Dropout is unavailable for this model structure."
+        ),
+    )
 
 def _run_mc_dropout(model_key: str, image_bgr: np.ndarray, confidence_threshold: float, mc_passes: int) -> dict[str, Any]:
     if not 2 <= mc_passes <= 12:
